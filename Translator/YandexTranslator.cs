@@ -40,8 +40,10 @@ namespace Translator
                 return "";
         }
 
+        public Dictionary<string, string> nnn = new Dictionary<string, string>();
 
         public List<string> GetAlldirection()
+        // public Dictionary<string, string> GetAlldirection()
         {
             WebRequest request = WebRequest.Create("https://translate.yandex.net/api/v1.5/tr.json/getLangs?"
                 + "key=trnsl.1.1.20170127T184343Z.c57386f5c18826ab.c3942baf91d3a5c948253592772906880173fc24"
@@ -60,7 +62,7 @@ namespace Translator
                         TranslationCode translation = JsonConvert.DeserializeObject<TranslationCode>(line);
 
                         List<string> st = new List<string>(translation.dirs);
-                        Dictionary<string, string> dd = new Dictionary<string, string>(translation.langs);                        
+                        Dictionary<string, string> dd = new Dictionary<string, string>(translation.langs);
 
                         foreach (var item in st)
                         {
@@ -69,11 +71,14 @@ namespace Translator
                             string s2 = dd[arr[1]];
 
                             spisok.Add(s1 + "-" + s2);
+
+                            nnn.Add(item, (s1 + "-" + s2));
                         }
                     }
                 }
             }
             catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message); }
+
             return spisok;
         }
     }
@@ -95,8 +100,14 @@ namespace Translator
     {
         public Translation()
         {
-            TranslationLang trl = new TranslationLang();
-            TranslationCode trc = new TranslationCode();
+            lng = new Dictionary<string, string>();
+        }
+
+        public Dictionary<string, string> lng { get; set; }
+
+        public override string ToString()
+        {
+            return lng.Values.ToString();
         }
     }
 }
