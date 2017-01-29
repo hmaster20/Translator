@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Translator
 {
@@ -24,40 +20,83 @@ namespace Translator
                 try
                 {
                     WebResponse response = request.GetResponse();
-
                     using (StreamReader stream = new StreamReader(response.GetResponseStream()))
                     {
                         string line;
-
                         if ((line = stream.ReadLine()) != null)
                         {
-                            Translation translation = JsonConvert.DeserializeObject<Translation>(line);
-
+                            TranslationLang translation = JsonConvert.DeserializeObject<TranslationLang>(line);
                             s = "";
 
                             foreach (string str in translation.text)
-                            {
                                 s += str;
-                            }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    System.Windows.Forms.MessageBox.Show(ex.Message);
-                }
-
+                catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message); }
                 return s;
             }
             else
                 return "";
         }
+
+
+        public List<string> GetAlldirection()
+        {
+            WebRequest request = WebRequest.Create("https://translate.yandex.net/api/v1.5/tr.json/getLangs?"
+                + "key=trnsl.1.1.20170127T184343Z.c57386f5c18826ab.c3942baf91d3a5c948253592772906880173fc24"
+                + "&ui=" + "ru");
+
+            List<string> spisok = new List<string>();
+
+            try
+            {
+                WebResponse response = request.GetResponse();
+                using (StreamReader stream = new StreamReader(response.GetResponseStream()))
+                {
+                    string line;
+                    if ((line = stream.ReadLine()) != null)
+                    {
+                        TranslationCode translation = JsonConvert.DeserializeObject<TranslationCode>(line);
+
+                        List<string> st = new List<string>(translation.dirs);
+                        Dictionary<string, string> dd = new Dictionary<string, string>(translation.langs);                        
+
+                        foreach (var item in st)
+                        {
+                            string[] arr = item.Split('-');
+                            string s1 = dd[arr[0]];
+                            string s2 = dd[arr[1]];
+
+                            spisok.Add(s1 + "-" + s2);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message); }
+            return spisok;
+        }
     }
 
-    class Translation
+    class TranslationLang
     {
         public string code { get; set; }
         public string lang { get; set; }
         public string[] text { get; set; }
+    }
+
+    class TranslationCode
+    {
+        public string[] dirs { get; set; }
+        public Dictionary<string, string> langs { get; set; }
+    }
+
+    class Translation
+    {
+        public Translation()
+        {
+            TranslationLang trl = new TranslationLang();
+            TranslationCode trc = new TranslationCode();
+        }
     }
 }
