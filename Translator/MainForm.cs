@@ -19,6 +19,8 @@ namespace Translator
             InitializeComponent();
 
             yt = new YandexTranslator();
+
+            cBoxTranslatDirect.Items.AddRange(yt.GetAlldirection().ToArray());        
         }
 
         private void translateButton_Click(object sender, EventArgs e)
@@ -35,6 +37,11 @@ namespace Translator
             }
 
             outputTextBox.Text = yt.Translate(inputTextBox.Text, lang);
+        }
+
+        private void cBoxTranslatDirect_Click(object sender, EventArgs e)
+        {
+         
         }
     }
 }

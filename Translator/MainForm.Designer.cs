@@ -34,6 +34,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.enRuRadioButton = new System.Windows.Forms.RadioButton();
             this.ruEnRadioButton = new System.Windows.Forms.RadioButton();
+            this.cBoxTranslatDirect = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,11 +103,22 @@
             this.ruEnRadioButton.Text = "Rus-Eng";
             this.ruEnRadioButton.UseVisualStyleBackColor = true;
             // 
+            // cBoxTranslatDirect
+            // 
+            this.cBoxTranslatDirect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cBoxTranslatDirect.FormattingEnabled = true;
+            this.cBoxTranslatDirect.Location = new System.Drawing.Point(448, 147);
+            this.cBoxTranslatDirect.Name = "cBoxTranslatDirect";
+            this.cBoxTranslatDirect.Size = new System.Drawing.Size(157, 21);
+            this.cBoxTranslatDirect.TabIndex = 4;
+            this.cBoxTranslatDirect.Click += new System.EventHandler(this.cBoxTranslatDirect_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(628, 308);
+            this.Controls.Add(this.cBoxTranslatDirect);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.translateButton);
             this.Controls.Add(this.outputTextBox);
@@ -128,6 +140,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton enRuRadioButton;
         private System.Windows.Forms.RadioButton ruEnRadioButton;
+        private System.Windows.Forms.ComboBox cBoxTranslatDirect;
     }
 }
 
