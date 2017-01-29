@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Translator
@@ -20,28 +14,40 @@ namespace Translator
 
             yt = new YandexTranslator();
 
-            cBoxTranslatDirect.Items.AddRange(yt.GetAlldirection().ToArray());        
+            cBoxTranslatDirect.Items.AddRange(yt.GetAlldirection().ToArray());
+
         }
 
         private void translateButton_Click(object sender, EventArgs e)
         {
             string lang;
 
-            if (ruEnRadioButton.Checked == true)
+            if (tabC.SelectedTab ==  tabPage1)
             {
-                lang = "ru-en";
+                if (ruEnRadioButton.Checked == true)
+                {
+                    lang = "ru-en";
+                }
+                else
+                {
+                    lang = "en-ru";
+                }
             }
             else
             {
-                lang = "en-ru";
-            }
-
+                if (cBoxTranslatDirect.SelectedItem != null)
+                {
+                    string name = cBoxTranslatDirect.SelectedItem.ToString();
+                    string nameKey = yt.nnn.FirstOrDefault(x => x.Value == name).Key;
+                    lang = nameKey;
+                }
+                else
+                {
+                    MessageBox.Show("Необходимо выбрать направление для перевода!");
+                    return;
+                }       
+            }  
             outputTextBox.Text = yt.Translate(inputTextBox.Text, lang);
-        }
-
-        private void cBoxTranslatDirect_Click(object sender, EventArgs e)
-        {
-         
         }
     }
 }
